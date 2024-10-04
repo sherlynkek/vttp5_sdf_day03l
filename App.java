@@ -9,7 +9,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import people.Person;
 import service.CSVManagement; 
 
 public class App {
@@ -26,7 +29,7 @@ public class App {
         
         // e.g. c:\data\myfile.txt
         String dirPathFileName = dirPath + File.separator + fileName;
-
+        System.out.println(dirPathFileName);
 
         // check if directory exists
         // if directory does not exist, create the directory
@@ -126,8 +129,45 @@ public class App {
         dis.close();
         fis.close(); */
 
+        List<Person> persons = new ArrayList<>();
+
         CSVManagement csv = new CSVManagement();
-        csv.readCSV(dirPathFileName);
+        persons = csv.readCSV(dirPathFileName);
+    
+        // menu
+        // 1. Enter new Person detail
+        // 2. Save to file (Prompt for new csv file name)
+        // 3. Quit and terminate program
+
+
+        Console consoleSelection = System.console();
+        Integer selection = 0;
+        while(selection != 3) {
+            System.out.println("1. Enter new Person detail");
+            System.out.println("2. Save to file (Prompt for new csv file name)");
+            System.out.println("3. Quit and terminate program");
+            selection = Integer.parseInt(consoleSelection.readLine(">>> "));
+
+            switch(selection) {
+                case 1:
+                    Console con1 = System.console();
+                    String personName = con1.readLine("Enter person name: ");
+                    String personRegion = con1.readLine("Enter Region/Area: ");
+                    String personYOB = con1.readLine("Enter Year of Birth: ");
+
+                    Person p = new Person(personName, personRegion, Integer.parseInt(personYOB));
+                    persons.add(p);
+                break;
+
+                case 2:
+                    Console con2 = System.console();
+                    String newFileName = con2.readLine("Enter a csv file to save (filename only): ");
+                break;
+
+                default:
+                break;
+            }
+        }
     }
         
 }
